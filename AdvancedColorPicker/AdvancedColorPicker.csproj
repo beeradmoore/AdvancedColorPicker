@@ -44,5 +44,6 @@
     <Compile Include="SatBrightIndicatorView.cs" />
     <Compile Include="SaturationBrightnessPickerView.cs" />
     <Compile Include="SelectedColorPreviewView.cs" />
+    <Compile Include="ColorPickerView.cs" />
   </ItemGroup>
 </Project>
