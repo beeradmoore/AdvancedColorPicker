@@ -22,33 +22,33 @@
 */
 
 using System;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace AdvancedColorPickerDemo
 {
-	public class ContainerController : UIViewController
-	{
-		public ContainerController () 
-		{
-			Title = "Pick a color!";
-			View.BackgroundColor = UIColor.White;
-		}
+    public class ContainerController : UIViewController
+    {
+        public ContainerController()
+        {
+            Title = "Pick a color!";
+            View.BackgroundColor = UIColor.White;
+        }
 
-		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
-		{
-			return UIInterfaceOrientationMask.All;
-		}
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
+        {
+            return UIInterfaceOrientationMask.All;
+        }
 		
-		//gia symvatotita me ios 4/5
-		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
-		{
-			return true;
-		}
-		
-		public override bool ShouldAutorotate ()
-		{
-			return true;
-		} 
-	}
+        //gia symvatotita me ios 4/5
+        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
+        {
+            return true;
+        }
+
+        public override bool ShouldAutorotate()
+        {
+            return true;
+        }
+    }
 }
 

@@ -22,96 +22,101 @@
 */
 
 using System;
-using MonoTouch.UIKit;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
+using UIKit;
+using CoreGraphics;
+using CoreGraphics;
 
 namespace AdvancedColorPicker
 {
-	public class HuePickerView : UIView
-	{
-		public event Action HueChanged;
+    public class HuePickerView : UIView
+    {
+        public event Action HueChanged;
 
-		public HuePickerView ()
-		{
-		}
+        public HuePickerView()
+        {
+        }
 
-		public float Hue { get; set; }
+        public float Hue { get; set; }
 
-		public override void Draw (RectangleF rect)
-		{
-			base.Draw (rect);
+        public override void Draw(CGRect rect)
+        {
+            base.Draw(rect);
 
-			CGContext context = UIGraphics.GetCurrentContext();
+            CGContext context = UIGraphics.GetCurrentContext();
 
-			CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
+            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
 
-			float step=0.166666666666667f;
+            float step = 0.166666666666667f;
 
-			float[] locations = new float[] {
-				0.00f, 
-				step, 
-				step*2, 
-				step*3, 
-				step*4, 
-				step*5, 
-				1.0f
-			};
+            nfloat[] locations = new nfloat[]
+            {
+                0.00f, 
+                step, 
+                step * 2, 
+                step * 3, 
+                step * 4, 
+                step * 5, 
+                1.0f
+            };
 
-			CGColor c1 = new CGColor(1,0,1,1);
-			CGColor c2 = new CGColor(1,1,0,1);
-			CGColor c3 = new CGColor(0,1,1,1);
+            CGColor c1 = new CGColor(1, 0, 1, 1);
+            CGColor c2 = new CGColor(1, 1, 0, 1);
+            CGColor c3 = new CGColor(0, 1, 1, 1);
 
-			CGColor[] colors = new CGColor[] {
-				UIColor.Red.CGColor,
-				c1,
-				UIColor.Blue.CGColor,
-				c3,
-				UIColor.Green.CGColor,
-				c2,
-				UIColor.Red.CGColor
-			};
+            CGColor[] colors = new CGColor[]
+            {
+                UIColor.Red.CGColor,
+                c1,
+                UIColor.Blue.CGColor,
+                c3,
+                UIColor.Green.CGColor,
+                c2,
+                UIColor.Red.CGColor
+            };
 
 
-			CGGradient gradiend = new CGGradient(colorSpace,colors, locations);
-			context.DrawLinearGradient(gradiend,new PointF(rect.Size.Width,0),new PointF(0,0),CGGradientDrawingOptions.DrawsBeforeStartLocation);
-			gradiend.Dispose();
-			colorSpace.Dispose();
-		} // draw
+            CGGradient gradiend = new CGGradient(colorSpace, colors, locations);
+            context.DrawLinearGradient(gradiend, new CGPoint(rect.Size.Width, 0), new CGPoint(0, 0), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            gradiend.Dispose();
+            colorSpace.Dispose();
+        }
+        // draw
 
-		public override void TouchesBegan (MonoTouch.Foundation.NSSet touches, UIEvent evt)
-		{
-			base.TouchesBegan (touches, evt);
-			HandleTouches(touches,evt);
-		}
-		public override void TouchesMoved (MonoTouch.Foundation.NSSet touches, UIEvent evt)
-		{
-			base.TouchesMoved (touches, evt);
-			HandleTouches(touches,evt);
-		}
+        public override void TouchesBegan(Foundation.NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
+            HandleTouches(touches, evt);
+        }
 
-		private void HandleTouches (MonoTouch.Foundation.NSSet touches, UIEvent evt)
-		{
-			var touch = (UITouch)evt.TouchesForView (this).AnyObject;
-			PointF pos;
-			pos = touch.LocationInView (this);
+        public override void TouchesMoved(Foundation.NSSet touches, UIEvent evt)
+        {
+            base.TouchesMoved(touches, evt);
+            HandleTouches(touches, evt);
+        }
 
-			float p = pos.X;
+        private void HandleTouches(Foundation.NSSet touches, UIEvent evt)
+        {
+            var touch = (UITouch)evt.TouchesForView(this).AnyObject;
+            CGPoint pos;
+            pos = touch.LocationInView(this);
 
-			float b = Frame.Size.Width;
+            float p = (float)pos.X;
+
+            float b = (float)Frame.Size.Width;
 	
-			if (p < 0)
-				Hue = 0;
-			else if (p > b)
-				Hue = 1;
-			else
-				Hue = p / b;
+            if (p < 0)
+                Hue = 0;
+            else if (p > b)
+                Hue = 1;
+            else
+                Hue = p / b;
 
 
-			if (HueChanged != null) {
-				HueChanged();
-			}
-		}
-	}
+            if (HueChanged != null)
+            {
+                HueChanged();
+            }
+        }
+    }
 }
 

@@ -25,81 +25,82 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 using AdvancedColorPicker;
 
 namespace AdvancedColorPickerDemo
 {
-	// The UIApplicationDelegate for the application. This class is responsible for launching the 
-	// User Interface of the application, as well as listening (and optionally responding) to 
-	// application events from iOS.
-	[Register ("AppDelegate")]
-	public partial class AppDelegate : UIApplicationDelegate
-	{
-		// class-level declarations
-		UIWindow window;
+    // The UIApplicationDelegate for the application. This class is responsible for launching the
+    // User Interface of the application, as well as listening (and optionally responding) to
+    // application events from iOS.
+    [Register("AppDelegate")]
+    public partial class AppDelegate : UIApplicationDelegate
+    {
+        // class-level declarations
+        UIWindow window;
 
-		ColorPickerViewController picker;
-		ContainerController container;
-		UIButton pickAColorBtn;
-		UINavigationController nav;
+        ColorPickerViewController picker;
+        ContainerController container;
+        UIButton pickAColorBtn;
+        UINavigationController nav;
 
-		//
-		// This method is invoked when the application has loaded and is ready to run. In this 
-		// method you should instantiate the window, load the UI into it and then make the window
-		// visible.
-		//
-		// You have 17 seconds to return from this method, or iOS will terminate your application.
-		//
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
-		{
-			// create a new window instance based on the screen size
-			window = new UIWindow (UIScreen.MainScreen.Bounds);
+        //
+        // This method is invoked when the application has loaded and is ready to run. In this
+        // method you should instantiate the window, load the UI into it and then make the window
+        // visible.
+        //
+        // You have 17 seconds to return from this method, or iOS will terminate your application.
+        //
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            // create a new window instance based on the screen size
+            window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-			container = new ContainerController();
-			nav = new UINavigationController(container);
+            container = new ContainerController();
+            nav = new UINavigationController(container);
 
-			pickAColorBtn = UIButton.FromType(UIButtonType.RoundedRect);
-			pickAColorBtn.Frame = new System.Drawing.RectangleF(UIScreen.MainScreen.Bounds.Width/2 - 50,UIScreen.MainScreen.Bounds.Height/2 - 22,100,44);
-			pickAColorBtn.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
-			pickAColorBtn.SetTitle("Pick a color!",UIControlState.Normal);
-			pickAColorBtn.TouchUpInside += pickAColorBtn_HandleTouchUpInside;
-			container.View.AddSubview(pickAColorBtn);
+            pickAColorBtn = UIButton.FromType(UIButtonType.RoundedRect);
+            pickAColorBtn.Frame = new CoreGraphics.CGRect(UIScreen.MainScreen.Bounds.Width / 2 - 50, UIScreen.MainScreen.Bounds.Height / 2 - 22, 100, 44);
+            pickAColorBtn.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+            pickAColorBtn.SetTitle("Pick a color!", UIControlState.Normal);
+            pickAColorBtn.TouchUpInside += pickAColorBtn_HandleTouchUpInside;
+            container.View.AddSubview(pickAColorBtn);
 
-			window.RootViewController = nav;
+            window.RootViewController = nav;
 	
-			// make the window visible
-			window.MakeKeyAndVisible ();
+            // make the window visible
+            window.MakeKeyAndVisible();
 			
-			return true;
-		}
+            return true;
+        }
 
-		UIBarButtonItem doneBtn;
-		void pickAColorBtn_HandleTouchUpInside (object sender, EventArgs e)
-		{
-			picker = new ColorPickerViewController();
-			picker.ColorPicked += HandleColorPicked;
-			picker.Title = "Pick a color!";
-			UINavigationController pickerNav = new UINavigationController(picker);
-			pickerNav.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+        UIBarButtonItem doneBtn;
+
+        void pickAColorBtn_HandleTouchUpInside(object sender, EventArgs e)
+        {
+            picker = new ColorPickerViewController();
+            picker.ColorPicked += HandleColorPicked;
+            picker.Title = "Pick a color!";
+            UINavigationController pickerNav = new UINavigationController(picker);
+            pickerNav.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 	
-			doneBtn = new UIBarButtonItem(UIBarButtonSystemItem.Done);
-			picker.NavigationItem.RightBarButtonItem = doneBtn;
-			doneBtn.Clicked += doneBtn_HandleClicked;
-			nav.PresentModalViewController(pickerNav,true);
-		}
+            doneBtn = new UIBarButtonItem(UIBarButtonSystemItem.Done);
+            picker.NavigationItem.RightBarButtonItem = doneBtn;
+            doneBtn.Clicked += doneBtn_HandleClicked;
+            nav.PresentModalViewController(pickerNav, true);
+        }
 
-		void doneBtn_HandleClicked (object sender, EventArgs e)
-		{
-			HandleColorPicked();
-			nav.DismissModalViewControllerAnimated(true);
-		}
+        void doneBtn_HandleClicked(object sender, EventArgs e)
+        {
+            HandleColorPicked();
+            nav.DismissModalViewController(true);
+        }
 
-		void HandleColorPicked ()
-		{
-			container.View.BackgroundColor = picker.SelectedColor;
-		}
-	}
+        void HandleColorPicked()
+        {
+            container.View.BackgroundColor = picker.SelectedColor;
+        }
+    }
 }
 
